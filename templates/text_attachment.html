@@ -1,0 +1,21 @@
+{% if visual_attachments %}
+<div>
+{% for attachment in visual_attachments %}
+<a href="{{attachment['url']}}"><img src="{{attachment['image']['url']}}"></a><br>
+{% endfor %}
+</div>
+{% endif %}
+<div>
+{%- for attachment in text_attachments %}
+<div>
+<a href="{{attachment['url']}}">
+  {%- autoescape false %}
+{{attachment['displayName']}}
+  {%- endautoescape %}
+</a><br>
+{%- autoescape false %}
+{{attachment['content']}}
+{%- endautoescape %}
+</div>
+{%- endfor %}
+</div>

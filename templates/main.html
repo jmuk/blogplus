@@ -24,6 +24,14 @@
         {%- autoescape false %}
         <div class="content">{{ obj['content'] }}</div>
         {%- endautoescape %}
+	{%- if post['formed_attachment'] %}
+	<div class="attachments">
+	  <hr>
+	  {%- autoescape false %}
+	  {{post['formed_attachment']}}
+	  {%- endautoescape %}
+	</div>
+	{%- endif %}
         <div class="meta">
           <span class="date">{{post['published']}}</span>
           <span class="permalink"><a href="{{post['self_url']}}">permalink</a></span>
@@ -56,10 +64,10 @@
         Jun Mukai. <a href="http://www.jmuk.org/+">Google+</a>.
       </div>
       <h2>Archives</h2>
-      <div>
+      <div class="content">
         ...
       </div>
-      <div>
+      <div class="content" style="font-size:small">
 ここで述べられていることは私の個人的な意見に基づくものであり、私の雇用者には一切の関係はありません。
       </div>
       <div>

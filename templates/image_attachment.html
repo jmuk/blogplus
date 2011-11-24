@@ -1,0 +1,4 @@
+<a href="{{attachment['url']}}"><img src="{{attachment['image']['url']}}"></a>
+{%- if attachment.get('displayName', '') %}
+<a href="{{attachment['url']}}">{{attachment['displayName']}}</a>
+{% endif %}

@@ -27,9 +27,17 @@ hr {
     border-color:green;
 }
 
+div.attachments {
+    margin-left:10%;
+}
+
 div.meta {
     font-family: 'News Cycle', serif;
     background-color:#EEE;
+}
+
+#sidebar div.content {
+    margin-left: 5px;
 }
 
 #content {

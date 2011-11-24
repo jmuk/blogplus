@@ -19,7 +19,7 @@ class Fetcher:
 
   def _activities_url(self):
     return (self.BASE_URL + 'people/' + self._user_id +
-            '/activities/public?key=' + self._key)
+            '/activities/public?num=100&key=' + self._key)
 
   def fetch(self):
     data = simplejson.load(urllib2.urlopen(self._activities_url()))
@@ -30,11 +30,44 @@ def isMeaningfulContent(content):
   return len(content) > 200
 
 def isMeaningfulPost(post):
+  """Check the meaningfulness of a post. """
+  # nothing for reshares.
   if post.get('verb', '') == 'share':
-    text_content = post['annotation']
+    return False
+
+  # okay to publish video posts ;)
+  attachments = post['object'].get('attachments', [])
+  for attachment in attachments:
+    if attachment['objectType'] == 'video':
+      return True
+
+  return isMeaningfulContent(re.sub('<.*?>', '', post['object']['content']))
+
+def formAttachments(post):
+  attachments = post['object'].get('attachments', [])
+  print attachments
+  attachments_len = len(attachments)
+  if attachments_len == 0:
+    post['formed_attachment'] = ''
+  elif attachments_len == 1:
+    attachment = attachments[0]
+    if attachment['objectType'] in ['video', 'photo']:
+      post['formed_attachment'] = render_template(
+        'image_attachment.html', attachment=attachment)
+    elif attachment['objectType'] == 'article':
+      post['formed_attachment'] = render_template(
+        'text_attachment.html', visual_attachments=[],
+        text_attachments=attachments)
   else:
-    text_content = post['object']['content']
-  return isMeaningfulContent(re.sub('<.*?>', '', text_content))
+    visual_attachments = []
+    text_attachments = []
+    for attachment in attachments:
+      if attachment['objectType'] == 'article':
+        text_attachments.append(attachment)
+      else:
+        visual_attachments.append(attachment)
+    post['formed_attachment'] = render_template('text_attachment.html',
+      visual_attachments=visual_attachments, text_attachments=text_attachments)
 
 class Storage:
   def __init__(self):
@@ -63,27 +96,27 @@ class Storage:
 
 
 storage = Storage()
-fetcher = Fetcher( # fill here
-  )
+fetcher = Fetcher(
+  '102550604876259086885', 'AIzaSyBrefCdRhjBh2tnFPPpzaTGIt4aDLbc1Tw', storage)
 
 SERVER_ROOT = 'http://www.jmuk.org'
 
-def process_post(post):
+def processPost(post):
   post['self_url'] = SERVER_ROOT + url_for('get_post', activity_id=post['id'])
-
+  formAttachments(post)
 
 @app.route('/')
 def main():
   posts = list(storage.getLatestPosts())
   for post in posts:
-    process_post(post)
+    processPost(post)
   return render_template('main.html', posts=posts)
 
 
 @app.route('/post/<activity_id>')
 def get_post(activity_id):
   post = storage.getPost(activity_id).__repr__()
-  process_post
+  processPost(post)
   return ''
 
 @app.route('/forcefetch')
