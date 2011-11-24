@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      {%- block title %}
+      val it: α → α = fun
+      {%- endblock %}
+    </title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}"/>
+    <link href='http://fonts.googleapis.com/css?family=GFS+Didot' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Fondamento' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Convergence' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" type="text/css" media="screen" />
+    <link rel="me" type="text/html" href="http://www.google.com/profiles/102550604876259086885"/>
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href=""/> /> -->
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+</head>
+
+  <body>
+    <div id="content">
+    <h1><a itemprop="name" href="http://www.jmuk.org/">val it: α → α = fun</a></h1>
+    <div id="main">
+      {%- block main %}
+      {%- endblock %}
+    </div>
+    <div id="sidebar">
+      <h2>About</h2>
+      <div>
+        <a href="http://www.jmuk.org/+"><img src="https://lh3.googleusercontent.com/-5nUMHsi0Bz8/AAAAAAAAAAI/AAAAAAAAKhM/JyXrmAkIMGQ/photo.jpg?sz=48"></a>
+        Jun Mukai. <a href="http://www.jmuk.org/+">Google+</a>.
+      </div>
+      <h2>Archives</h2>
+      <div class="content">
+        ...
+      </div>
+      <div class="content" style="font-size:small">
+ここで述べられていることは私の個人的な意見に基づくものであり、私の雇用者には一切の関係はありません。
+      </div>
+      <div>
+        AdSence
+        <!--
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-6413829572957696";
+/* sidebar 2 */
+google_ad_slot = "0516751464";
+google_ad_width = 300;
+google_ad_height = 250;
+//
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script> -->
+      </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -45,7 +45,6 @@ def isMeaningfulPost(post):
 
 def formAttachments(post):
   attachments = post['object'].get('attachments', [])
-  print attachments
   attachments_len = len(attachments)
   if attachments_len == 0:
     post['formed_attachment'] = ''
@@ -115,9 +114,10 @@ def main():
 
 @app.route('/post/<activity_id>')
 def get_post(activity_id):
-  post = storage.getPost(activity_id).__repr__()
+  post = storage.getPost(activity_id)
   processPost(post)
-  return ''
+  print post
+  return render_template('single_entry.html', post=post)
 
 @app.route('/forcefetch')
 def forcefetch():
@@ -126,4 +126,3 @@ def forcefetch():
 
 if __name__ == '__main__':
   app.run(debug=True)
-

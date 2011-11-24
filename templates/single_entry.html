@@ -1,11 +1,14 @@
 {% extends "base.html" %}
+{% block title %}
+{{ super() }}
+- {{ post['title'] }}
+{% endblock %}
 {% block main %}
       <hr>
-      {%- for post in posts%}
       <div class="post">
         {%- set obj = post['object'] %}
         {%- autoescape false %}
-        <div class="content">{{ obj['content'] }}</div>
+        <div itemprop="description" class="content">{{ obj['content'] }}</div>
         {%- endautoescape %}
 	{%- if post['formed_attachment'] %}
 	<div class="attachments">
@@ -17,7 +20,7 @@
 	{%- endif %}
         <div class="meta">
           <span class="date">{{post['published']}}</span>
-          <span class="permalink"><a href="{{url_for('get_post', activity_id=post['id'])}}">permalink</a></span>
+          <span class="permalink"><a href="{{post['self_url']}}">permalink</a></span>
           <span class="original_post"><a target="_blank" href="{{post['url']}}">original post</a></span> |
           {%- if obj['plusoners']['totalItems'] > 0 %}
           <span class="plusones">
@@ -36,7 +39,17 @@
           <iframe src="http://www.facebook.com/plugins/like.php?app_id=241190519226756&amp;href={{post['self_url']}}&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
           -->
         </div>
+	Adsense
+<!--
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-6413829572957696";
+/* blog entry */
+google_ad_slot = "9535457220";
+google_ad_width = 336;
+google_ad_height = 280;
+//
+</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script> -->
         <hr>
         </div>
-      {% endfor %}
 {% endblock %}
