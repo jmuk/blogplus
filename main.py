@@ -93,6 +93,15 @@ class Storage:
   def getLatestPosts(self):
     return self.posts_.find().sort([('published', pymongo.DESCENDING)]).limit(10)
 
+  def getDates(self):
+    result = {}
+    for post in self.posts_.find({}, {'published': 1}):
+      published = post['published']
+      (y, m, remaining) = published.split('-')
+      published_month = y + '-' + m
+      result[published_month] = result.get(published_month, 0) + 1
+    return sorted(result.items())
+
 
 storage = Storage()
 fetcher = Fetcher(
@@ -109,15 +118,16 @@ def main():
   posts = list(storage.getLatestPosts())
   for post in posts:
     processPost(post)
-  return render_template('main.html', posts=posts)
+  return render_template(
+    'main.html', posts=posts, archive_items=storage.getDates())
 
 
 @app.route('/post/<activity_id>')
 def get_post(activity_id):
   post = storage.getPost(activity_id)
   processPost(post)
-  print post
-  return render_template('single_entry.html', post=post)
+  return render_template(
+    'single_entry.html', post=post, archive_items=storage.getDates())
 
 @app.route('/forcefetch')
 def forcefetch():

@@ -32,7 +32,12 @@
       </div>
       <h2>Archives</h2>
       <div class="content">
-        ...
+	<select>
+	  <option value=""></option>
+	  {%- for archive_item in archive_items %}
+	  <option value="{{archive_item[0]}}">{{archive_item[0]}} ({{archive_item[1]}})</option>
+	  {%- endfor %}
+	</select>
       </div>
       <div class="content" style="font-size:small">
 ここで述べられていることは私の個人的な意見に基づくものであり、私の雇用者には一切の関係はありません。
