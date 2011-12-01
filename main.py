@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from flask import Flask, redirect, render_template, url_for
+from flask import Flask, redirect, render_template, url_for, abort
 import cStringIO
 import pymongo
 import re
@@ -102,6 +102,10 @@ class Storage:
       result[published_month] = result.get(published_month, 0) + 1
     return sorted(result.items())
 
+  def getArchivedPosts(self, datespec):
+    result = {}
+    return self.posts_.find({'published': {'$regex': '^' + datespec}}).sort([('published', pymongo.DESCENDING)])
+
 
 storage = Storage()
 fetcher = Fetcher(
@@ -128,6 +132,20 @@ def get_post(activity_id):
   processPost(post)
   return render_template(
     'single_entry.html', post=post, archive_items=storage.getDates())
+
+@app.route('/archive/<datespec>')
+def archive(datespec):
+  if not re.match(r'\d+-\d+', datespec):
+    abort(404)
+
+  posts = list(storage.getArchivedPosts(datespec))
+  if len(posts) == 0:
+    abort(404)
+
+  for post in posts:
+    processPost(post)
+  return render_template(
+    'main.html', posts=posts, archive_items=storage.getDates())
 
 @app.route('/forcefetch')
 def forcefetch():
