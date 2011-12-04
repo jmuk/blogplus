@@ -35,12 +35,6 @@ def isMeaningfulPost(post):
   if post.get('verb', '') == 'share':
     return False
 
-  # okay to publish video posts ;)
-  attachments = post['object'].get('attachments', [])
-  for attachment in attachments:
-    if attachment['objectType'] == 'video':
-      return True
-
   return isMeaningfulContent(re.sub('<.*?>', '', post['object']['content']))
 
 def formAttachments(post):
