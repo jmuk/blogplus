@@ -125,7 +125,6 @@ def main():
   return render_template(
     'main.html', posts=posts, archive_items=storage.getDates())
 
-
 @app.route('/post/<activity_id>')
 def get_post(activity_id):
   post = storage.getPost(activity_id)
@@ -146,6 +145,17 @@ def archive(datespec):
     processPost(post)
   return render_template(
     'main.html', posts=posts, archive_items=storage.getDates())
+
+@app.route('/feed')
+def atomFeed():
+  posts = list(storage.getLatestPosts())
+  global_updated = max([post['updated'] for post in posts])
+  for post in posts:
+    processPost(post)
+
+  return render_template(
+    'atom.xml', posts=posts, SERVER_ROOT=SERVER_ROOT,
+    global_updated=global_updated)
 
 @app.route('/forcefetch')
 def forcefetch():

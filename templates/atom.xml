@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>{{SERVER_ROOT}}/</id>
+  <updated></updated>
+  <title>val it: α -> α = fun</title>
+  <link href="{{SERVER_ROOT}}/"/>
+  <link href="{{SERVER_ROOT}}{{url_for('atomFeed')}}" rel="self"/>
+  <updated>{{global_updated}}</updated>
+  <author>
+    <name>Jun Mukai</name>
+    <uri>https://plus.google.com/102550604876259086885/posts</uri>
+  </author>
+  <logo>http://www.jmuk.org/favicon.png</logo>
+  {%- for post in posts %}
+  <entry>
+    <id>{{post['self_url']}}</id>
+    <link href="{{post['self_url']}}" rel="self"/>
+    <title>{{post['title']}}</title>
+    <content>{{post['object']['content']}}</content>
+    <summary>{{post['object']['content']}}</summary>
+    <published>{{post['published']}}</published>
+    <updated>{{post['updated']}}</updated>
+  </entry>
+  {%- endfor %}
+</feed>
