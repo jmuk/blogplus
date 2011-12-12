@@ -22,7 +22,7 @@ class Storage:
       old_post = old_posts.get(post['id'])
       if old_post and post != old_post:
         # update
-        self.posts_.update({'id': post['id']}, {'$set', post})
+        self.posts_.update({'id': post['id']}, {'$set': post})
     self._latest_cache = None
     self._dates_cache = None
 
