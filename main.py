@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from flask import Flask, redirect, render_template, abort
-from config import CLIENT_KEY, CLIENT_SECRET, SERVER_ROOT
+from config import USER_ID, CLIENT_SECRET, SERVER_ROOT
 from posts import processPost
 from storage import Storage
 from fetcher import Fetcher
@@ -11,7 +11,7 @@ import signal
 app = Flask(__name__)
 
 storage = Storage()
-fetcher = Fetcher(CLIENT_KEY, CLIENT_SECRET, storage)
+fetcher = Fetcher(USER_ID, CLIENT_SECRET, storage)
 
 @app.route('/')
 def main():
