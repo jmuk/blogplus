@@ -4,7 +4,7 @@ function redirectToArchive(e) {
   if (!e.target.value)
     return;
 
-  window.location.href = '/archive/' + e.target.value;
+  window.location.href = '/blog/archive/' + e.target.value;
 }
 
 window.addEventListener('load', function() {
