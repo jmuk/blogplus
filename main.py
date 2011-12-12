@@ -6,6 +6,7 @@ from posts import processPost
 from storage import Storage
 from fetcher import Fetcher
 import re
+import signal
 
 app = Flask(__name__)
 
@@ -17,6 +18,7 @@ def main():
   posts = list(storage.getLatestPosts())
   for post in posts:
     processPost(post)
+  fetcher.maybe_post_fetch()
   return render_template(
     'main.html', posts=posts, archive_items=storage.getDates())
 
@@ -54,8 +56,11 @@ def atomFeed():
 
 @app.route('/forcefetch')
 def forcefetch():
-  fetcher.fetch()
+  fetcher.post_fetch()
   return redirect('/')
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  try:
+    app.run(debug=True)
+  finally:
+    fetcher.finish_thread()
