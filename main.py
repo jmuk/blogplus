@@ -62,6 +62,7 @@ def forcefetch():
 
 if __name__ == '__main__':
   try:
-    app.run(debug=True)
+    fetcher.fetch_all_posts()
+    app.run(debug=False)
   finally:
     fetcher.finish_thread()

@@ -31,8 +31,15 @@ class Fetcher:
       request.add_header('If-None-Match', self._fetch_etag)
     return request
 
+  def _paged_activities_url(self, page_token):
+    return urllib2.Request(
+      self.BASE_URL + 'people/' + self._user_id +
+      '/activities/public?num=100&pageToken=%s&key=%s' % (
+        page_token, self._key))
+
   def _single_post_url(self, activity_id):
-    return (self.BASE_URL + 'activities/%s?key=%s' % (activity_id, self._key))
+    return (self.BASE_URL + 'activities/%s?num=100&key=%s' % (
+        activity_id, self._key))
 
   def _fetch(self):
     try:
@@ -64,6 +71,27 @@ class Fetcher:
         self._fetch_activity_id = None
       else:
         self._fetch()
+
+  def fetch_all_posts(self):
+    try:
+      latest_ids = set([post['id'] for post in self._storage.getLatestPosts()])
+      print 'fetch the latest...'
+      data = simplejson.load(urllib2.urlopen(self._activities_url()))
+      all_items = []
+      while len(data['items']) > 0:
+        reach_to_latest = False
+        if any(map(lambda e: e['id'] in latest_ids, data['items'])):
+          break
+
+        all_items.extend(data['items'])
+        if 'nextPageToken' not in data:
+          break
+        token = data['nextPageToken']
+        data = simplejson.load(
+          urllib2.urlopen(self._paged_activities_url(token)))
+      self._storage.storePosts(all_items)
+    except urllib2.HTTPError as e:
+      pass
 
   def post_fetch(self):
     self._event.set()
