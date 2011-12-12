@@ -17,7 +17,7 @@
 	{%- endif %}
         <div class="meta">
           <span class="date">{{post['published']}}</span>
-          <span class="permalink"><a href="{{url_for('get_post', activity_id=post['id'])}}">permalink</a></span>
+          <span class="permalink"><a href="{{url_for('.get_post', activity_id=post['id'])}}">permalink</a></span>
           <span class="original_post"><a target="_blank" href="{{post['url']}}">original post</a></span> |
           {%- if obj['plusoners']['totalItems'] > 0 %}
           <span class="plusones">

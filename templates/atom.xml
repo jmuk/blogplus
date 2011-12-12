@@ -4,7 +4,7 @@
   <updated></updated>
   <title>val it: α -> α = fun</title>
   <link href="{{SERVER_ROOT}}/"/>
-  <link href="{{SERVER_ROOT}}{{url_for('atomFeed')}}" rel="self"/>
+  <link href="{{SERVER_ROOT}}{{url_for('.atomFeed')}}" rel="self"/>
   <updated>{{global_updated}}</updated>
   <author>
     <name>Jun Mukai</name>

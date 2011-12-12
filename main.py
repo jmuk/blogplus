@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from flask import Flask, redirect, render_template, abort
+from flask import Flask, redirect, render_template, abort, Blueprint
 from config import USER_ID, CLIENT_SECRET, SERVER_ROOT
 from posts import processPost
 from storage import Storage
@@ -8,12 +8,12 @@ from fetcher import Fetcher
 import re
 import signal
 
-app = Flask(__name__)
+app_main = Blueprint('blog', __name__, static_folder='static')
 
 storage = Storage()
 fetcher = Fetcher(USER_ID, CLIENT_SECRET, storage)
 
-@app.route('/')
+@app_main.route('/')
 def main():
   posts = list(storage.getLatestPosts())
   for post in posts:
@@ -22,7 +22,7 @@ def main():
   return render_template(
     'main.html', posts=posts, archive_items=storage.getDates())
 
-@app.route('/post/<activity_id>')
+@app_main.route('/post/<activity_id>')
 def get_post(activity_id):
   post = storage.getPost(activity_id)
   processPost(post)
@@ -30,7 +30,7 @@ def get_post(activity_id):
   return render_template(
     'single_entry.html', post=post, archive_items=storage.getDates())
 
-@app.route('/archive/<datespec>')
+@app_main.route('/archive/<datespec>')
 def archive(datespec):
   if not re.match(r'\d+-\d+', datespec):
     abort(404)
@@ -44,7 +44,7 @@ def archive(datespec):
   return render_template(
     'main.html', posts=posts, archive_items=storage.getDates())
 
-@app.route('/feed')
+@app_main.route('/feed')
 def atomFeed():
   posts = list(storage.getLatestPosts())
   global_updated = max([post['updated'] for post in posts])
@@ -55,7 +55,7 @@ def atomFeed():
     'atom.xml', posts=posts, SERVER_ROOT=SERVER_ROOT,
     global_updated=global_updated)
 
-@app.route('/forcefetch')
+@app_main.route('/forcefetch')
 def forcefetch():
   fetcher.post_fetch()
   return redirect('/')
@@ -63,6 +63,8 @@ def forcefetch():
 if __name__ == '__main__':
   try:
     fetcher.fetch_all_posts()
-    app.run(debug=False)
+    app = Flask(__name__)
+    app.register_blueprint(app_main, url_prefix='/blog')
+    app.run(debug=True)
   finally:
     fetcher.finish_thread()

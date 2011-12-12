@@ -40,5 +40,5 @@ def formAttachments(post):
       visual_attachments=visual_attachments, text_attachments=text_attachments)
 
 def processPost(post):
-  post['self_url'] = SERVER_ROOT + url_for('get_post', activity_id=post['id'])
+  post['self_url'] = SERVER_ROOT + url_for('.get_post', activity_id=post['id'])
   formAttachments(post)

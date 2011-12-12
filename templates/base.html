@@ -6,21 +6,21 @@
       val it: α → α = fun
       {%- endblock %}
     </title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}"/>
+    <link rel="shortcut icon" href="{{ url_for('.static', filename='favicon.png') }}"/>
     <link href='http://fonts.googleapis.com/css?family=GFS+Didot' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Fondamento' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Convergence' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}" type="text/css" media="screen" />
     <link rel="me" type="text/html" href="http://www.google.com/profiles/102550604876259086885"/>
-    <link rel="alternate" type="application/atom+xml" title="RSS" href="{{url_for('atomFeed')}}"/>
-    <script type="text/javascript" src="{{url_for('static', filename='archives.js')}}"></script>
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="{{url_for('.atomFeed')}}"/>
+    <script type="text/javascript" src="{{url_for('.static', filename='archives.js')}}"></script>
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 </head>
 
   <body>
     <div id="content">
-    <h1><a itemprop="name" href="{{url_for('main')}}">val it: α → α = fun</a></h1>
+    <h1><a itemprop="name" href="{{url_for('.main')}}">val it: α → α = fun</a></h1>
     <div id="main">
       {%- block main %}
       {%- endblock %}
