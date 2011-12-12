@@ -1,0 +1,3 @@
+CLIENT_KEY = '102550604876259086885'
+CLIENT_SECRET = 'AIzaSyBrefCdRhjBh2tnFPPpzaTGIt4aDLbc1Tw'
+SERVER_ROOT = 'http://www.jmuk.org'
