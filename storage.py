@@ -20,7 +20,7 @@ class Storage:
       self.posts_.insert(new_posts)
     for post in posts:
       old_post = old_posts.get(post['id'])
-      if old_post and not old_post['updated'] == post['updated']:
+      if old_post and post != old_post:
         # update
         self.posts_.update({'id': post['id']}, {'$set', post})
     self._latest_cache = None
