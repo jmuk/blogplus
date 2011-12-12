@@ -26,6 +26,7 @@ def main():
 def get_post(activity_id):
   post = storage.getPost(activity_id)
   processPost(post)
+  fetcher.maybe_single_fetch(activity_id)
   return render_template(
     'single_entry.html', post=post, archive_items=storage.getDates())
 
