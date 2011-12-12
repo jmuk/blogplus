@@ -66,6 +66,8 @@ class Storage:
   def __init__(self):
     self.db_ = pymongo.Connection()['blogplus']
     self.posts_ = self.db_['items']
+    self._latest_cache = None
+    self._dates_cache = None
 
   def storePosts(self, posts):
     ids = [post['id'] for post in posts]
@@ -80,21 +82,32 @@ class Storage:
       if old_post and not old_post['updated'] == post['updated']:
         # update
         self.posts_.update({'id': post['id']}, {'$set', post})
+    self._latest_cache = None
+    self._dates_cache = None
 
   def getPost(self, id):
     return self.posts_.find_one({'id': id})
 
   def getLatestPosts(self):
-    return self.posts_.find().sort([('published', pymongo.DESCENDING)]).limit(10)
+    if self._latest_cache:
+      return self._latest_cache
+
+    self._latest_cache = list(
+      self.posts_.find().sort([('published', pymongo.DESCENDING)]).limit(10))
+    return self._latest_cache
 
   def getDates(self):
+    if self._dates_cache:
+      return self._dates_cache
+
     result = {}
     for post in self.posts_.find({}, {'published': 1}):
       published = post['published']
       (y, m, remaining) = published.split('-')
       published_month = y + '-' + m
       result[published_month] = result.get(published_month, 0) + 1
-    return sorted(result.items())
+    self._dates_cache = sorted(result.items())
+    return self._dates_cache
 
   def getArchivedPosts(self, datespec):
     result = {}
