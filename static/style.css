@@ -27,6 +27,10 @@ hr {
     border-color:green;
 }
 
+hr.entry {
+    margin-bottom: 5ex;
+}
+
 div.attachments {
     margin-left:10%;
 }

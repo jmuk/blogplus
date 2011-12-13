@@ -9,7 +9,7 @@
         {%- endautoescape %}
 	{%- if post['formed_attachment'] %}
 	<div class="attachments">
-	  <hr>
+	  <hr class="attachment">
 	  {%- autoescape false %}
 	  {{post['formed_attachment']}}
 	  {%- endautoescape %}
@@ -36,7 +36,7 @@
           <iframe src="http://www.facebook.com/plugins/like.php?app_id=241190519226756&amp;href={{post['self_url']}}&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
           -->
         </div>
-        <hr>
+        <hr class="entry">
         </div>
       {% endfor %}
 {% endblock %}
