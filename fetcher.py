@@ -47,7 +47,6 @@ class Fetcher:
       self._fetch_etag = loaded.info().getheader('ETag')
       data = simplejson.load(loaded)
       self._storage.storePosts(data['items'])
-      print 1 / 0
     except urllib2.HTTPError as e:
       # fetcher errors.  Including 30x.
       pass
