@@ -15,7 +15,7 @@
   <entry>
     <id>{{post['self_url']}}</id>
     <link href="{{post['self_url']}}" rel="self"/>
-    <title>{{post['title']}}</title>
+    <title>{{post['object']['subject']}}</title>
     <content>{{post['object']['content']}}</content>
     <summary>{{post['object']['content']}}</summary>
     <published>{{post['published']}}</published>
