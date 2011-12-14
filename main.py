@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from flask import Flask, redirect, render_template, abort, Blueprint
+from cache import cached
 from config import USER_ID, CLIENT_SECRET, SERVER_ROOT
 from posts import processPost
 from storage import Storage
@@ -14,6 +15,7 @@ storage = Storage()
 fetcher = Fetcher(USER_ID, CLIENT_SECRET, storage)
 
 @app_main.route('/')
+@cached('main')
 def main():
   posts = list(storage.getLatestPosts())
   for post in posts:
@@ -45,6 +47,7 @@ def archive(datespec):
     'main.html', posts=posts, archive_items=storage.getDates())
 
 @app_main.route('/feed')
+@cached('feed')
 def atomFeed():
   posts = list(storage.getLatestPosts())
   global_updated = max([post['updated'] for post in posts])
