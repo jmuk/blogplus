@@ -22,6 +22,8 @@ def extractSubject(post):
     if len(line) == 0:
       continue
     (prefix, segment, remaining) = line.partition(u'\u3002')
+    if len(remaining) == 0:
+      (prefix, segment, remaining) = line.partition('.')
     post['object']['subject'] = prefix + segment
     return
   # if it fails to extract the subject, use 'title' instead
