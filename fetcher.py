@@ -49,7 +49,7 @@ class Fetcher:
       self._storage.storePosts(data['items'])
     except urllib2.HTTPError as e:
       # fetcher errors.  Including 30x.
-      pass
+      print 'fetcher error: ', e.code
 
   def _fetch_a_post(self, activity_id):
     try:
@@ -57,7 +57,7 @@ class Fetcher:
         urllib2.urlopen(self._single_post_url(activity_id)))
       self._storage.storePosts([data])
     except urllib2.HTTPError as e:
-      pass
+      print 'fetcher error: ', e.code
 
   def _fetcher_thread(self):
     while True:
@@ -78,7 +78,6 @@ class Fetcher:
       data = simplejson.load(urllib2.urlopen(self._activities_url()))
       all_items = []
       while len(data['items']) > 0:
-        reach_to_latest = False
         if any(map(lambda e: e['id'] in latest_ids, data['items'])):
           break
 
@@ -90,7 +89,7 @@ class Fetcher:
           urllib2.urlopen(self._paged_activities_url(token)))
       self._storage.storePosts(all_items)
     except urllib2.HTTPError as e:
-      pass
+      print 'fetcher error: ', e.code
 
   def post_fetch(self):
     self._event.set()
