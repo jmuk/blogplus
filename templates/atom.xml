@@ -14,7 +14,7 @@
   {%- for post in posts %}
   <entry>
     <id>{{post['self_url']}}</id>
-    <link href="{{post['self_url']}}" rel="self"/>
+    <link href="{{post['self_url']}}"/>
     <title>{{post['object']['subject']}}</title>
     <content>{{post['object']['content']}}</content>
     <summary>{{post['object']['content']}}</summary>
