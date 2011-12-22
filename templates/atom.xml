@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>{{SERVER_ROOT}}/</id>
-  <updated></updated>
   <title>val it: α -> α = fun</title>
   <link href="{{SERVER_ROOT}}/"/>
   <link href="{{SERVER_ROOT}}{{url_for('.atomFeed')}}" rel="self"/>
