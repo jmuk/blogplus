@@ -40,7 +40,9 @@ class Storage:
       (y, m, remaining) = published.split('-')
       published_month = y + '-' + m
       result[published_month] = result.get(published_month, 0) + 1
-    return sorted(result.items())
+    # We just reverse the order because most people are just interested in
+    # recent items rather than ancient ones.
+    return sorted(result.items(), reverse=True)
 
   def getArchivedPosts(self, datespec):
     return self.posts_.find({'published': {'$regex': '^' + datespec}}).sort([('published', pymongo.DESCENDING)])
