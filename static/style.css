@@ -28,7 +28,7 @@ hr {
 }
 
 hr.entry {
-    margin-bottom: 5ex;
+    margin-bottom: 7ex;
 }
 
 div.attachments {
@@ -56,6 +56,7 @@ div.meta {
    max-width: 640px;
    border-right: 1px solid #BBB;
    float:left;
+   line-height: 1.7em;
 }
 
 #sidebar {
