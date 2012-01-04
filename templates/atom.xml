@@ -15,7 +15,7 @@
     <id>{{post['self_url']}}</id>
     <link href="{{post['self_url']}}"/>
     <title>{{post['object']['subject']}}</title>
-    <content>{{post['object']['content']}}</content>
+    <content type="html">{{post['object']['content']}}</content>
     <summary>{{post['object']['content']}}</summary>
     <published>{{post['published']}}</published>
     <updated>{{post['updated']}}</updated>
